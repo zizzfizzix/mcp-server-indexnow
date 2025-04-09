@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mcp-server-indexnow"
+authors = [
+  { name = "Kuba Serafinowski", email = "" },
+]
+description = "A Model Context Protocol server allowing URL indexing request via IndexNow"
+readme = "README.md"
+requires-python = ">=3.13"
+dynamic = ["version"]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "mcp[cli]",
+    "httpx"
+]
+
+[dependency-groups]
+dev = [
+    "mypy",
+    "pytest",
+    "ruff"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["mcp_server_indexnow"]
+
+[tool.hatch.version]
+path = "mcp_server_indexnow/version.py"
+
+[project.scripts]
+mcp_server_indexnow = "mcp_server_indexnow.main:app"
+
+[tool.pytest.ini_options]
+pythonpath = "mcp_server_indexnow"
+
+[tool.mypy]
+python_version = "3.13"
+warn_return_any = true
+warn_unused_configs = true
+exclude = [
+    ".+test_"
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
