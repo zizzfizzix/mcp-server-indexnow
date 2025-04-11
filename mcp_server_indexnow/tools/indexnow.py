@@ -26,6 +26,8 @@ def add_indexnow_tools(mcp: FastMCP, indexnow_service: IndexNowService) -> None:
                    empty list)
             key_location: Optional location of your key file
                           (e.g. "https://example.com/key.txt")
+                          If not provided, the server will check for the
+                          INDEXNOW_KEY_LOCATION environment variable.
 
         Returns:
             A dictionary containing the result of the submission:

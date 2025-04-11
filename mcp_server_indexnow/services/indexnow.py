@@ -61,6 +61,7 @@ class IndexNowService:
         self.api_base = api_base
         self.api_client = api_client
         self.default_key = os.environ.get("INDEXNOW_SECRET_KEY")
+        self.default_key_location = os.environ.get("INDEXNOW_KEY_LOCATION")
 
     def _get_key_or_error(
         self, key: Optional[str]
@@ -143,12 +144,15 @@ class IndexNowService:
             return host_result
         actual_host = host_result
 
+        # Determine effective key location: parameter > environment variable > None
+        effective_key_location = key_location or self.default_key_location
+
         if len(urls) == 1:
             # Use GET for single URL submission
             params = {"url": urls[0], "key": actual_key}
-            # Only include keyLocation if explicitly provided for GET
-            if key_location:
-                params["keyLocation"] = key_location
+            # Only include keyLocation if explicitly provided or set via env var
+            if effective_key_location:
+                params["keyLocation"] = effective_key_location
 
             status_code, response_body = await self.api_client.send_get_request(
                 self.api_base, params
@@ -160,10 +164,8 @@ class IndexNowService:
                 "key": actual_key,
                 "urlList": urls,
             }
-            # Include default key location if not provided
-            data["keyLocation"] = (
-                key_location or f"https://{actual_host}/{actual_key}.txt"
-            )
+            # Include keyLocation as explicitly provided or set via env var or default to root
+            data["keyLocation"] = (effective_key_location or f"https://{actual_host}/{actual_key}.txt")
 
             status_code, response_body = await self.api_client.send_post_request(
                 self.api_base, data

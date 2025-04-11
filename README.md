@@ -143,6 +143,24 @@ This server supports the following environment variables for configuration:
 }
 ```
 
+* **`INDEXNOW_KEY_LOCATION`**: Optional. Full URL to your key file if not hosted at the root (`/keyfilename.txt`). Use this if you followed Option 2 from the IndexNow documentation.
+
+```json
+"mcpServers": {
+  "mcp_server_indexnow": {
+    "command": "uvx",
+    "args": [
+      "--from",
+      "git+https://github.com/zizzfizzix/mcp-server-indexnow",
+      "mcp_server_indexnow"
+    ],
+    "env": {
+      "INDEXNOW_KEY_LOCATION": "https://example.com/some/path/myIndexNowKey63638.txt"
+    }
+  }
+}
+```
+
 ## Examples
 
 Interact with your MCP client (e.g., AI Assistant) to invoke the tool. The exact command might depend on the client, but conceptually:
