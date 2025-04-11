@@ -164,8 +164,13 @@ class IndexNowService:
                 "key": actual_key,
                 "urlList": urls,
             }
-            # Include keyLocation as explicitly provided or set via env var or default to root
-            data["keyLocation"] = (effective_key_location or f"https://{actual_host}/{actual_key}.txt")
+            # Include keyLocation provided or set via env var or default to root
+            # Use the scheme from the first URL for the default keyLocation
+            parsed_first_url = urlparse(urls[0])
+            scheme = parsed_first_url.scheme or "https"  # Default to https if missing
+            data["keyLocation"] = (
+                effective_key_location or f"{scheme}://{actual_host}/{actual_key}.txt"
+            )
 
             status_code, response_body = await self.api_client.send_post_request(
                 self.api_base, data
