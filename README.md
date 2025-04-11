@@ -89,7 +89,7 @@ In your Zed settings.json add:
     "command": "/path/to/mcp-server-indexnow/.venv/bin/python",
     "args": ["/path/to/mcp-server-indexnow/mcp_server_indexnow/main.py"]
   }
-},
+}
 ```
 
 ## Usage
