@@ -5,7 +5,7 @@ install:
 
 lint:
 	uv run mypy --strict mcp_server_indexnow/
-	uv run ruff check mcp_server_indexnow/
+	uv run ruff check --fix mcp_server_indexnow/
 
 format:
 	uv run ruff format mcp_server_indexnow/
